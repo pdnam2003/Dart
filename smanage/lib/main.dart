@@ -1,6 +1,6 @@
-import 'package:smanage/controller/student.controller.dart';
-import 'package:smanage/controller/subject.controller.dart';
-import 'package:smanage/models/student.dart';
+import './controller/student.controller.dart';
+import './controller/subject.controller.dart';
+import './models/student.dart';
 import './models/subject.dart';
 import './services/student.service.dart';
 import './services/subject.service.dart';
@@ -100,7 +100,8 @@ void main() {
         stdout.write('Nhập STT các môn đang học (vd: 1,3,5): ');
         String inputSubjects = stdin.readLineSync()!;
         List<Subject> danghoc;
-        danghoc = subjectController.selectSub(inputSubjects);
+
+        danghoc = subjectController.selectSub(inputSubjects, subjectsData);
 
         Student studentsData = Student(
           code: code,
@@ -191,7 +192,7 @@ void main() {
           stdout.write('Nhập STT các môn đang học (vd: 1,3,5): ');
           String inputSubjects = stdin.readLineSync()!;
           List<Subject> danghoc;
-          danghoc = subjectController.selectSub(inputSubjects);
+          danghoc = subjectController.selectSub(inputSubjects, subjectsData);
 
           Student studentsData = Student(
             code: code,
@@ -223,19 +224,17 @@ void main() {
         }
         break;
       case '6':
-        print('ban chon xem sv bi duoi hoc');        
+        print('ban chon xem sv bi duoi hoc');
         final banS = studentController.viewBan();
-        if(banS.isEmpty){
+        if (banS.isEmpty) {
           print('khong co sv nao bi duoi');
-        }else{
-          for(var s in banS){
-             print('Mã SV   : ${s.code}');
+        } else {
+          for (var s in banS) {
+            print('Mã SV   : ${s.code}');
             print('Tên     : ${s.name}');
             print('Email   : ${s.email}');
             print('Tuổi    : ${s.age}');
-            print(
-              'Trạng thái: ${s.status}',
-            );
+            print('Trạng thái: ${s.status}');
             print('Môn học: ${s.enRollSubjects.map((e) => e.name).join(", ")}');
           }
         }
@@ -243,20 +242,34 @@ void main() {
       case '7':
         print('ban chon Đăng ký môn học yêu thích');
         print('nhap ten sv muon dk mon hoc');
-         String inputName = stdin.readLineSync()!;
+        String inputName = stdin.readLineSync()!;
         final student = studentController.getByName(inputName);
         if (student == null) {
           print('khong thay sv nao ca');
-        }else{
-          
-        stdout.write('Nhập STT các môn dk học (vd: 1,3,5): ');
-        String inputSubjects = stdin.readLineSync()!;
-        final selectsubject = subjectController.selectSub(inputSubjects);
-        final regisSubject = studentController.regisSub(, selectsubject);
+        } else if (student.status == StatusStudent.globalBan) {
+          print('bi ban khong cho hoc');
+        } else {
+          stdout.write('Nhập STT các môn dk học (vd: 1,3,5): ');
+          String inputSubjects = stdin.readLineSync()!;
+          final selectsubject = subjectController.selectSub(
+            inputSubjects,
+            subjectsData,
+          );
+          print(selectsubject);
+          final regisSubject = studentController.regisSub(
+            student.code,
+            selectsubject,
+          );
+
+          if (regisSubject) {
+            print('dang ky mon hoc thanh cong');
+          }
         }
 
         break;
 
+        case '0':
+        return;
       default:
         print('Lựa chọn không hợp lệ');
     }

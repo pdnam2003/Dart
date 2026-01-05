@@ -22,8 +22,8 @@ class SubjectController {
   Subject? getByCode(String code){
     return _subjectService.getByCode(code);
   }
-  List<Subject> selectSub(String  input){
-    return _subjectService.selectSub(input);
+  List<Subject> selectSub(String  input, List<Subject> subject){
+    return _subjectService.selectSub(input, subject);
 
   }
 

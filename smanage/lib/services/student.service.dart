@@ -1,7 +1,7 @@
-import 'package:smanage/models/student.dart';
-import 'package:collection/collection.dart';
-import 'package:smanage/models/subject.dart';
+import '../models/student.dart';
+import '../models/subject.dart';
 import '../interface/base.interface.dart';
+import 'package:collection/collection.dart';
 
 class StudentService implements IBaseInterface<Student, String> {
   List<Student> students = [];

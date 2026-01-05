@@ -7,5 +7,8 @@ class Subject {
     required this.name,
     required this.credits,
   });
-
+ @override
+  String toString() {
+    return '$name (Mã: $code - $credits tín chỉ)';
+  }
 }

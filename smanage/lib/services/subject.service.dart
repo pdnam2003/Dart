@@ -1,7 +1,6 @@
-import 'package:collection/collection.dart';
-import 'package:smanage/models/subject.dart';
+import '../models/subject.dart';
 import '../interface/base.interface.dart';
-
+import 'package:collection/collection.dart';
 class SubjectService implements IBaseInterface<Subject, String> {
   List<Subject> subjects = [];
   SubjectService(this.subjects);
@@ -63,14 +62,17 @@ class SubjectService implements IBaseInterface<Subject, String> {
     return subjects;
   }
  
-  List<Subject> selectSub(String input){
+  List<Subject> selectSub(String input,List<Subject> subject){
+   
     List<Subject> danghoc = [];
     List<String> index= input.split(',');
 
     for(var i in index){
       int ind = int.parse(i.trim())-1;
+      
       if(ind >=0 && ind < subjects.length){
         Subject subject = subjects[ind];
+       
         bool exists = danghoc.any((a)=>a.code == subject.code);
       if(!exists){
         danghoc.add(subject);
@@ -79,6 +81,7 @@ class SubjectService implements IBaseInterface<Subject, String> {
       }      
       }      
     }
+    print(danghoc);
     return danghoc;
   }
 
